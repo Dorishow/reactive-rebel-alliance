@@ -24,7 +24,7 @@ public class Rebel {
     private Genre genre;
     private Local local;
     private Inventory inventory;
-    private Integer reports;
+    private Integer reports = 0;
     private Boolean isTraitor;
 
     public static Rebel fromRequest(RebelRequest request){
@@ -39,5 +39,14 @@ public class Rebel {
         rebel.setIsTraitor(false);
 
         return rebel;
+    }
+
+    public Rebel reportRebel(){
+        this.setReports(this.getReports() + 1);
+        if(this.getReports() >= 3){
+            this.setIsTraitor(true);
+        }
+
+        return this;
     }
 }
