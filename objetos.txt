@@ -1,0 +1,40 @@
+Genre {
+	MALE,
+	FEMALE,
+	ALIEN
+}
+
+Local {
+	private Double latitude;
+	private Double longitude;
+	private String galaxy;
+}
+
+ItemType {
+	GUN(4),
+	AMMO(3),
+	WATER(2),
+	FOOD(1)
+}
+
+Item {
+	private ItemType name;
+	private Integer points; // ItemType value
+	private Integer amount;
+}
+
+Inventory {
+	private Item[] items;
+	private Integer totalPoints;
+}
+
+Rebel {
+	private String id;
+	private String name;
+	private Integer age;
+	private Genre genre;
+	private Local local;
+	private Inventory inventory;
+	private Integer reports;
+	private Boolean isTraitor;
+}

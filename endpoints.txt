@@ -1,0 +1,21 @@
+REBEL_CONTROLLER:
+	PUT: updateRebelLocal( Local local ) => local;
+	POST: reportRebel(String id) => rebel;
+
+
+TRADE_CONTROLLER:
+	TradeRequest{
+		String requestTradeId;
+		String traderId;
+		Inventory itemsToTrade;
+		tradePoints;
+		String receiverId;
+	}
+
+	POST: tradeItems(TradeRequest trade) => TradeRequest;
+	GET: listTradeRequests(String rebelId) => TradeRequest[];
+	POST: acceptTrade(String requestTradeId) => void;
+
+
+REPORT_CONTROLLER:
+	GET: getReport() => Report;
