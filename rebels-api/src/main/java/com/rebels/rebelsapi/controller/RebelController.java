@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/rebels")
+@RequestMapping("/rebel")
 @RequiredArgsConstructor
 public class RebelController {
 
@@ -20,7 +20,7 @@ public class RebelController {
         return service.listAllRebels();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Mono<Rebel> getById(@PathVariable String id){
         return service.getRebelById(id);
     }
@@ -28,5 +28,10 @@ public class RebelController {
     @PostMapping
     public Mono<Rebel> create(@RequestBody RebelRequest request){
         return service.createRebel(request);
+    }
+
+    @PostMapping("/report")
+    public Mono<Rebel> report(@RequestBody String id){
+        return service.reportRebel(id);
     }
 }

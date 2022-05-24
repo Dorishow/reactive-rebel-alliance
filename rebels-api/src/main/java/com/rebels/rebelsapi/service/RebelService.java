@@ -15,9 +15,8 @@ public class RebelService {
     private final RebelRepository repository;
 
     public Mono<Rebel> createRebel(RebelRequest request){
-        System.out.printf("Request: " + request);
         final var rebel = Rebel.fromRequest(request);
-        System.out.printf("Rebel: " + rebel);
+
         return repository.save(rebel);
     }
 
@@ -33,5 +32,13 @@ public class RebelService {
         final var deletedRebel = repository.findById(id);
         repository.deleteById(id);
         return deletedRebel;
+    }
+
+    public Mono<Rebel> reportRebel(String id) {
+        var rebel = repository.findById(id);
+        final Rebel[] rebelWithReport = {new Rebel()};
+        rebel.subscribe(rebel1 -> rebelWithReport[0] = rebel1.reportRebel());
+
+        return repository.save(rebelWithReport[0].reportRebel());
     }
 }
