@@ -64,7 +64,7 @@ public class Rebel {
             InventoryRequest inventoryRequest = new InventoryRequest();
             inventoryRequest.setItems(paramItemOnBag);
             Integer itemPointsOnBag = Inventory.fromRequest(inventoryRequest).getTotalPoints();
-            if(item.getAmount() <= itemPointsOnBag){
+            if((item.getAmount() * item.getName().getItemPoints()) <= itemPointsOnBag){
                 hasItem = true;
             }
         }
@@ -75,14 +75,10 @@ public class Rebel {
     public boolean canTrade(TradeRequest request) {
         if (this.isTraitor) return false;
 
-        System.out.printf("%n");
-        System.out.println("[INFO]: canTrade -> " + request);
-        System.out.printf("%n");
-
         AtomicReference<Boolean> canTrade = new AtomicReference<>(true);
         request.getItems().forEach(
                 item -> {
-                    if (this.hasItem(item) == false){
+                    if (!this.hasItem(item)){
                         canTrade.set(false);
                     }
                 }

@@ -17,8 +17,6 @@ public class TradeController {
 
     @PostMapping
     public Mono<Trade> requestTrade(@RequestBody TradeRequest request){
-        System.out.printf("%n");
-        System.out.println("[INFO]: Request -> " + request);
         return service.requestTrade(request);
     }
 

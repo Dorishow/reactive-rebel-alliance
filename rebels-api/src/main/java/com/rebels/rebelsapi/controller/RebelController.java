@@ -43,9 +43,6 @@ public class RebelController {
 
     @PutMapping("/update-local/{id}")
     public Mono<Rebel> updateRebelLocal(@PathVariable String id, @RequestBody Local local) {
-        System.out.printf("%n");
-        System.out.println(local);
-        System.out.printf("%n");
         return service.updateRebelLocal(id, local);
     }
 
