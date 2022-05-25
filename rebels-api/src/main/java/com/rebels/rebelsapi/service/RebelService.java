@@ -35,10 +35,8 @@ public class RebelService {
     }
 
     public Mono<Rebel> reportRebel(String id) {
-        var rebel = repository.findById(id);
-        final Rebel[] rebelWithReport = {new Rebel()};
-        rebel.subscribe(rebel1 -> rebelWithReport[0] = rebel1.reportRebel());
-
-        return repository.save(rebelWithReport[0].reportRebel());
+        return repository.findById(id)
+                .doOnNext(Rebel::reportRebel)
+                .flatMap(repository::save);
     }
 }
