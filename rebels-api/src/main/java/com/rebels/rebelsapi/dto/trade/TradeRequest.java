@@ -1,16 +1,19 @@
-package com.rebels.rebelsapi.dto.inventory;
+package com.rebels.rebelsapi.dto.trade;
 
 import com.rebels.rebelsapi.models.Item;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
-@Getter @Setter
+@Data
+@Getter
+@Setter
 @ToString
-@NoArgsConstructor
-public class InventoryRequest {
+public class TradeRequest {
+    private String requesterId;
     private List<Item> items;
+    private String targetRebelId;
 }

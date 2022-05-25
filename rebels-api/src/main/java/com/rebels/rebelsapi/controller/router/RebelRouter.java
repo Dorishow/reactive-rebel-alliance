@@ -24,11 +24,4 @@ public class RebelRouter {
                                 .POST("", handler::createRebel)))
                 .build();
     }
-
-//    @Bean
-//    public RouterFunction<ServerResponse> router(RebelHandler handler){
-//        return RouterFunctions
-//                .route(GET("/functional/rebels"), handler::listAll)
-//                .andRoute(POST("/functional/rebels"), handler::createRebel);
-//    }
 }
