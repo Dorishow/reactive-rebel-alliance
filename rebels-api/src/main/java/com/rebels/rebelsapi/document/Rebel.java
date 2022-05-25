@@ -1,8 +1,11 @@
 package com.rebels.rebelsapi.document;
 
+import com.rebels.rebelsapi.dto.inventory.InventoryRequest;
 import com.rebels.rebelsapi.dto.rebel.RebelRequest;
+import com.rebels.rebelsapi.dto.trade.TradeRequest;
 import com.rebels.rebelsapi.enumerator.Genre;
 import com.rebels.rebelsapi.models.Inventory;
+import com.rebels.rebelsapi.models.Item;
 import com.rebels.rebelsapi.models.Local;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +13,9 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Document
 @Data
@@ -35,6 +40,8 @@ public class Rebel {
         rebel.setGenre(request.getGenre());
         rebel.setLocal(request.getLocal());
         rebel.setInventory( Inventory.fromRequest(request.getInventory()));
+        System.out.printf("%n");
+        System.out.println("[INFO]: Inventory -> " + rebel.getInventory().getItems());
         rebel.setReports(0);
         rebel.setIsTraitor(false);
 
@@ -48,5 +55,39 @@ public class Rebel {
         }
 
         return this;
+    }
+
+    public Boolean hasItem(Item item){
+        Boolean hasItem = false;
+        List<Item> paramItemOnBag = this.getInventory().getItems().stream().filter(i -> i.name == item.name).toList();
+        if (!paramItemOnBag.isEmpty()){
+            InventoryRequest inventoryRequest = new InventoryRequest();
+            inventoryRequest.setItems(paramItemOnBag);
+            Integer itemPointsOnBag = Inventory.fromRequest(inventoryRequest).getTotalPoints();
+            if(item.getAmount() <= itemPointsOnBag){
+                hasItem = true;
+            }
+        }
+
+        return hasItem;
+    }
+
+    public boolean canTrade(TradeRequest request) {
+        if (this.isTraitor) return false;
+
+        System.out.printf("%n");
+        System.out.println("[INFO]: canTrade -> " + request);
+        System.out.printf("%n");
+
+        AtomicReference<Boolean> canTrade = new AtomicReference<>(true);
+        request.getItems().forEach(
+                item -> {
+                    if (this.hasItem(item) == false){
+                        canTrade.set(false);
+                    }
+                }
+        );
+
+        return canTrade.get();
     }
 }

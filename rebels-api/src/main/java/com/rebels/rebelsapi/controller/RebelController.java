@@ -2,6 +2,7 @@ package com.rebels.rebelsapi.controller;
 
 import com.rebels.rebelsapi.document.Rebel;
 import com.rebels.rebelsapi.dto.rebel.RebelRequest;
+import com.rebels.rebelsapi.models.Local;
 import com.rebels.rebelsapi.service.RebelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,11 @@ public class RebelController {
         return service.listAllRebels();
     }
 
+    @GetMapping("/traitor")
+    public Flux<Rebel> listAllTraitors(){
+        return service.listAllTraitors();
+    }
+
     @GetMapping("/{id}")
     public Mono<Rebel> getById(@PathVariable String id){
         return service.getRebelById(id);
@@ -33,5 +39,18 @@ public class RebelController {
     @PostMapping("/report")
     public Mono<Rebel> report(@RequestBody String id){
         return service.reportRebel(id);
+    }
+
+    @PutMapping("/update-local/{id}")
+    public Mono<Rebel> updateRebelLocal(@PathVariable String id, @RequestBody Local local) {
+        System.out.printf("%n");
+        System.out.println(local);
+        System.out.printf("%n");
+        return service.updateRebelLocal(id, local);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Rebel> deleteRebel(@PathVariable String id){
+        return service.deleteById(id);
     }
 }
