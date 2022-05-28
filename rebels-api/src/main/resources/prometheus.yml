@@ -12,6 +12,6 @@ scrape_configs:
     scrape_interval: 5s
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ['host.docker.internal:8081']
+      - targets: ['host.docker.internal:8080']
 
-  docker run -d --name prometheus -p 9090:9090 -v C:\Users\jalme\Desktop\rebels\rebels-api\src\main\resources\prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+# docker run -d --name prometheus -p 9090:9090 -v C:\Users\jalme\Desktop\rebels\rebels-api\src\main\resources\prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml

@@ -19,14 +19,14 @@ services:
     depends_on:
       - actuator-api
 
-  actuator-api:
-    build: spring-admin/
-    networks:
-      - rebels-network
-    ports:
-      - "8088:8088"
-    depends_on:
-      - mongodb
+  # actuator-api:
+  #   build: spring-admin/
+  #   networks:
+  #     - rebels-network
+  #   ports:
+  #     - "8088:8088"
+  #   depends_on:
+  #     - mongodb
 
   prometheus:
     image: prom/prometheus
