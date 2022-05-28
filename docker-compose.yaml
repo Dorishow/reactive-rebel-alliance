@@ -1,11 +1,53 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  mongodb:
+  mongo-database:
+    networks:
+      - rebels-network
     image: mongo
     volumes:
       - mongodata:/data/db
     ports:
       - "27017:27017"
+
+  rebels-api:
+    build: rebels-api/
+    networks:
+      - rebels-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - actuator-api
+
+  actuator-api:
+    build: spring-admin/
+    networks:
+      - rebels-network
+    ports:
+      - "8088:8088"
+    depends_on:
+      - mongodb
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./rebels-api/src/main/resources/:/etc/prometheus/
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - 9090:9090
+    networks:
+      - rebels-network
+    depends_on:
+      - rebels-api
+    restart: always
+
 volumes:
   mongodata:
+  prometheus_data: {}
+
+networks:
+  rebels-network:
+    driver: bridge
+# comando para rodar o prometheus
+# docker run -d --name prometheus -p 9090:9090 -v \rebels-api\src\main\resources:/etc/prometheus prom/prometheus --config.file=/etc/prometheus/prometheus.yml
