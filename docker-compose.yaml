@@ -19,14 +19,14 @@ services:
     depends_on:
       - actuator-api
 
-  # actuator-api:
-  #   build: spring-admin/
-  #   networks:
-  #     - rebels-network
-  #   ports:
-  #     - "8088:8088"
-  #   depends_on:
-  #     - mongodb
+  actuator-api:
+    build: spring-admin/
+    networks:
+      - rebels-network
+    ports:
+      - "8088:8088"
+    depends_on:
+      - mongodb
 
   prometheus:
     image: prom/prometheus
@@ -49,5 +49,3 @@ volumes:
 networks:
   rebels-network:
     driver: bridge
-# comando para rodar o prometheus
-# docker run -d --name prometheus -p 9090:9090 -v \rebels-api\src\main\resources:/etc/prometheus prom/prometheus --config.file=/etc/prometheus/prometheus.yml
